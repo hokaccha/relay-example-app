@@ -1,0 +1,11 @@
+{
+  "name": "relay-example-app",
+  "private": true,
+  "dependencies": {
+    "core-js": "^2.0.3",
+    "express": "^4.13.4",
+    "express-graphql": "^0.4.9",
+    "graphql": "^0.4.16",
+    "sqlite3": "^3.1.1"
+  }
+}
