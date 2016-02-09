@@ -1,0 +1,18 @@
+body, html {
+  height: 100%;
+}
+
+body {
+  background: #EFEFEF;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  background: #FFF;
+  min-height: 100%;
+  box-sizing: border-box;
+}
