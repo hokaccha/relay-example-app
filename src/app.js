@@ -1,10 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TodoApp from './components/todo_app';
 
-class MyComponent extends React.Component {
-  render() {
-    return <div>Hello World</div>;
-  }
-}
-
-ReactDOM.render(<MyComponent />, document.getElementById('app'));
+ReactDOM.render(React.createElement(TodoApp), document.getElementById('app'));
