@@ -6,7 +6,7 @@ let todo = require('./db/todo');
 let todoType = new graphql.GraphQLObjectType({
   name: 'Todo',
   fields: {
-    id: { type: graphql.GraphQLString },
+    id: { type: graphql.GraphQLID },
     text: { type: graphql.GraphQLString },
     completed: { type: graphql.GraphQLBoolean },
     created_at: { type: graphql.GraphQLString },
@@ -20,7 +20,7 @@ let schema = new graphql.GraphQLSchema({
       todo: {
         type: todoType,
         args: {
-          id: { type: graphql.GraphQLString }
+          id: { type: graphql.GraphQLID }
         },
         resolve: (_, args) => {
           return todo.find(args.id);
@@ -49,7 +49,7 @@ let schema = new graphql.GraphQLSchema({
       updateTodo: {
         type: todoType,
         args: {
-          id: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
+          id: { type: new graphql.GraphQLNonNull(graphql.GraphQLID) },
           completed: { type: new graphql.GraphQLNonNull(graphql.GraphQLBoolean) },
         },
         resolve: (_, args) => {
@@ -59,7 +59,7 @@ let schema = new graphql.GraphQLSchema({
       deleteTodo: {
         type: graphql.GraphQLString,
         args: {
-          id: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
+          id: { type: new graphql.GraphQLNonNull(graphql.GraphQLID) },
         },
         resolve: (_, args) => {
           return todo.remove(args.id).then(() => args.id);
