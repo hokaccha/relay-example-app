@@ -1,11 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import todoStore from '../stores/todo_store';
+import Relay from 'react-relay';
+import ChangeTodoStatusMutation from '../mutations/change_todo_status_mutation';
 
-export default class TodoItem extends React.Component {
-  handleUpdate() {
-    let value = ReactDOM.findDOMNode(this.refs.completed).checked;
-    todoStore.update(this.props.todo.id, value);
+class TodoItem extends React.Component {
+  handleUpdate(e) {
+    let todo = this.props.todo;
+    let completed = e.target.checked;
+
+    Relay.Store.commitUpdate(new ChangeTodoStatusMutation({ todo, completed }));
   }
 
   handleDelete() {
@@ -28,3 +30,16 @@ export default class TodoItem extends React.Component {
     );
   }
 }
+
+export default Relay.createContainer(TodoItem, {
+  fragments: {
+    todo: () => Relay.QL`
+      fragment on Todo {
+        id
+        text
+        completed
+        ${ChangeTodoStatusMutation.getFragment('todo')}
+      }
+    `
+  }
+});

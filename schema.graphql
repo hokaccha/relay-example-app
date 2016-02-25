@@ -1,0 +1,65 @@
+input AddTodoInput {
+  text: String!
+  clientMutationId: String!
+}
+
+type AddTodoPayload {
+  app: App
+  todoEdge: TodoEdge
+  clientMutationId: String!
+}
+
+type App implements Node {
+  id: ID!
+  todos(after: String, first: Int, before: String, last: Int): TodoConnection
+}
+
+input ChangeTodoStatusInput {
+  id: ID!
+  completed: Boolean!
+  clientMutationId: String!
+}
+
+type ChangeTodoStatusPayload {
+  todo: Todo
+  clientMutationId: String!
+}
+
+type Mutation {
+  addTodo(input: AddTodoInput!): AddTodoPayload
+  changeTodoStatus(input: ChangeTodoStatusInput!): ChangeTodoStatusPayload
+  deleteTodo(id: ID!): String
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  node(id: ID!): Node
+  app: App
+}
+
+type Todo implements Node {
+  id: ID!
+  text: String
+  completed: Boolean
+  created_at: String
+}
+
+type TodoConnection {
+  pageInfo: PageInfo!
+  edges: [TodoEdge]
+}
+
+type TodoEdge {
+  node: Todo
+  cursor: String!
+}

@@ -2,23 +2,31 @@
   "name": "relay-example-app",
   "private": true,
   "dependencies": {
+    "babel-cli": "^6.5.1",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
+    "babel-relay-plugin": "^0.7.1",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "core-js": "^2.0.3",
     "express": "^4.13.4",
     "express-graphql": "^0.4.9",
     "graphql": "^0.4.16",
+    "graphql-relay": "^0.3.6",
+    "nodemon": "^1.9.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
+    "react-relay": "^0.7.1",
     "sqlite3": "^3.1.1",
+    "watch": "^0.17.1",
     "watchify": "^3.7.0"
   },
   "scripts": {
-    "start": "npm-run-all --parallel server watch",
-    "server": "node server.js",
-    "watch": "watchify -v -d -t babelify src/app.js -o public/bundle.js",
-    "bundle": "browserify -d -t babelify src/app.js -o public/bundle.js"
+    "start": "npm-run-all --parallel server js:watch schema:watch",
+    "server": "nodemon --watch server.js --watch schema.js --exec babel-node server.js",
+    "js:watch": "watchify -v -d -t babelify src/app.js -o public/bundle.js",
+    "js:build": "browserify -d -t babelify src/app.js -o public/bundle.js",
+    "schema:build": "babel-node scripts/print_schema.js",
+    "schema:watch": "onchange schema.js -- babel-node scripts/print_schema.js"
   }
 }

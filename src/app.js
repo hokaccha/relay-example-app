@@ -1,5 +1,11 @@
+import App from './components/app';
+import AppRoute from './routes/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoApp from './components/todo_app';
+import Relay from 'react-relay';
 
-ReactDOM.render(React.createElement(TodoApp), document.getElementById('app'));
+let app = React.createElement(Relay.RootContainer, {
+  Component: App,
+  route: new AppRoute(),
+});
+ReactDOM.render(app, document.getElementById('app'));
