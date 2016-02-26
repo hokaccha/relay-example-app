@@ -8,9 +8,7 @@ export default class AddTodoMutation extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on AddTodoPayload {
-        app {
-          todos
-        },
+        app { todos },
         todoEdge
       }
     `;
@@ -35,11 +33,12 @@ export default class AddTodoMutation extends Relay.Mutation {
     ];
   }
 
+  // サーバー側のデータが反映されるまでのプレースホルダー的なもの？
   getOptimisticResponse() {
     return {
       todoEdge: {
         node: {
-          text: 'hoge',
+          text: this.props.text,
           completed: false,
         }
       }

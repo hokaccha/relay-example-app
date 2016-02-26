@@ -28,7 +28,7 @@ type ChangeTodoStatusPayload {
 type Mutation {
   addTodo(input: AddTodoInput!): AddTodoPayload
   changeTodoStatus(input: ChangeTodoStatusInput!): ChangeTodoStatusPayload
-  deleteTodo(id: ID!): String
+  removeTodo(input: RemoveTodoInput!): RemoveTodoPayload
 }
 
 interface Node {
@@ -45,6 +45,17 @@ type PageInfo {
 type Query {
   node(id: ID!): Node
   app: App
+}
+
+input RemoveTodoInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type RemoveTodoPayload {
+  app: App
+  deletedTodoId: ID
+  clientMutationId: String!
 }
 
 type Todo implements Node {

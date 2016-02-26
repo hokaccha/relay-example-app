@@ -58,16 +58,18 @@ let appType = new graphql.GraphQLObjectType({
   }
 });
 
+let appField = {
+  type: appType,
+  resolve: () => app,
+};
+
 let addTodoMutationType = relay.mutationWithClientMutationId({
   name: 'AddTodo',
   inputFields: {
     text: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
   },
   outputFields: {
-    app: {
-      type: appType,
-      resolve: () => app,
-    },
+    app: appField,
     todoEdge: {
       type: connection.edgeType,
       resolve: (args) => {
@@ -103,15 +105,30 @@ let changeTodoStatusMutationType = relay.mutationWithClientMutationId({
   }
 });
 
+let removeTodoMutationType = relay.mutationWithClientMutationId({
+  name: 'RemoveTodo',
+  inputFields: {
+    id: { type: new graphql.GraphQLNonNull(graphql.GraphQLID) },
+  },
+  outputFields: {
+    app: appField,
+    deletedTodoId: {
+      type: graphql.GraphQLID,
+      resolve: (args) => args.id
+    }
+  },
+  mutateAndGetPayload: (args) => {
+    let id = relay.fromGlobalId(args.id).id;
+    return todo.remove(id).then(() => ({ id }));
+  },
+});
+
 let schema = new graphql.GraphQLSchema({
   query: new graphql.GraphQLObjectType({
     name: 'Query',
     fields: {
       node: nodeField,
-      app: {
-        type: appType,
-        resolve: () => app,
-      }
+      app: appField,
     }
   }),
   mutation: new graphql.GraphQLObjectType({
@@ -119,15 +136,7 @@ let schema = new graphql.GraphQLSchema({
     fields: {
       addTodo: addTodoMutationType,
       changeTodoStatus: changeTodoStatusMutationType,
-      deleteTodo: {
-        type: graphql.GraphQLString,
-        args: {
-          id: { type: new graphql.GraphQLNonNull(graphql.GraphQLID) },
-        },
-        resolve: (_, args) => {
-          return todo.remove(args.id).then(() => args.id);
-        },
-      }
+      removeTodo: removeTodoMutationType
     }
   })
 });

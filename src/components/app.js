@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import TodoItem from './todo_item';
 import ReactDOM from 'react-dom';
 import AddTodoMutation from '../mutations/add_todo_mutation';
+import RemoveTodoMutation from '../mutations/remove_todo_mutation';
 
 class App extends React.Component {
   handleSubmit(e) {
@@ -21,7 +22,7 @@ class App extends React.Component {
           <input type="submit" />
         </form>
         <div className="TodoList">
-          {this.props.app.todos.edges.map(({ node }) => <TodoItem key={node.id} todo={node} />)}
+          {this.props.app.todos.edges.map(({ node }) => <TodoItem key={node.id} todo={node} app={this.props.app} />)}
         </div>
       </div>
     );
@@ -37,6 +38,7 @@ export default Relay.createContainer(App, {
     app: () => Relay.QL`
       fragment on App {
         ${AddTodoMutation.getFragment('app')},
+        ${TodoItem.getFragment('app')},
         todos(first: $first) {
           edges {
             node {

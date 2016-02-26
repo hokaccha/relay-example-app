@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import ChangeTodoStatusMutation from '../mutations/change_todo_status_mutation';
+import RemoveTodoMutation from '../mutations/remove_todo_mutation';
 
 class TodoItem extends React.Component {
   handleUpdate(e) {
@@ -12,7 +13,7 @@ class TodoItem extends React.Component {
 
   handleDelete() {
     if (window.confirm('remove this todo?')) {
-      todoStore.delete(this.props.todo.id);
+      Relay.Store.commitUpdate(new RemoveTodoMutation({ todo: this.props.todo, app: this.props.app }));
     }
   }
 
@@ -39,7 +40,13 @@ export default Relay.createContainer(TodoItem, {
         text
         completed
         ${ChangeTodoStatusMutation.getFragment('todo')}
+        ${RemoveTodoMutation.getFragment('todo')}
       }
-    `
+    `,
+    app: () => Relay.QL`
+      fragment on App {
+        ${RemoveTodoMutation.getFragment('app')}
+      }
+    `,
   }
 });
