@@ -29,6 +29,6 @@
     "js:watch": "watchify -v -d -t babelify src/app.js -o public/bundle.js",
     "js:build": "browserify -d -t babelify src/app.js -o public/bundle.js",
     "schema:build": "babel-node scripts/print_schema.js",
-    "schema:watch": "onchange schema.js -- babel-node scripts/print_schema.js"
+    "schema:watch": "onchange schema/schema.js -- babel-node scripts/print_schema.js"
   }
 }

@@ -2,7 +2,7 @@
 
 let graphql = require('graphql');
 let relay = require('graphql-relay');
-let todo = require('./db/todo');
+let todo = require('../db/todo');
 let app = { id: 1 };
 
 let node = relay.nodeDefinitions(

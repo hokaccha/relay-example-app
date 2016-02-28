@@ -1,1 +1,1 @@
-module.exports = require('babel-relay-plugin')(require('../schema.json').data);
+module.exports = require('babel-relay-plugin')(require('../schema/schema.json').data);

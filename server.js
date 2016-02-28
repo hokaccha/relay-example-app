@@ -4,7 +4,7 @@ require('core-js');
 
 let graphqlHTTP = require('express-graphql');
 let express = require('express');
-let schema = require('./schema');
+let schema = require('./schema/schema');
 
 let app = express();
 
