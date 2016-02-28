@@ -18,7 +18,7 @@ class App extends React.Component {
     return (
       <div className="TodoApp">
         <form className="TodoForm" onSubmit={this.handleSubmit.bind(this)}>
-          <input type="text" ref="text" />
+          <input type="text" ref="text" placeholder="Input your todo" />
           <input type="submit" />
         </form>
         <div className="TodoList">

@@ -19,14 +19,13 @@ class TodoItem extends React.Component {
 
   render() {
     let { text, completed } = this.props.todo;
+    let className = `TodoItem${completed ? " is-completed" : ""}`;
 
     return (
-      <div className="TodoItem">
-        <div>
-          <button onClick={this.handleDelete.bind(this)}>x</button>
-          <input type="checkbox" checked={completed} ref="completed" onChange={this.handleUpdate.bind(this)} />
-          <span>{text}</span>
-        </div>
+      <div className={className}>
+        <input type="checkbox" checked={completed} ref="completed" onChange={this.handleUpdate.bind(this)} />
+        <span className="TodoText">{text}</span>
+        <span className="TodoRemoveBtn" onClick={this.handleDelete.bind(this)}>✖</span>
       </div>
     );
   }
