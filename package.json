@@ -24,11 +24,12 @@
     "watchify": "^3.7.0"
   },
   "scripts": {
-    "start": "npm-run-all --parallel server js:watch schema:watch",
+    "start": "npm-run-all db:init --parallel server js:watch schema:watch",
     "server": "nodemon --watch server.js --watch schema.js --exec babel-node server.js",
     "js:watch": "watchify -v -d -t babelify src/app.js -o public/bundle.js",
     "js:build": "browserify -d -t babelify src/app.js -o public/bundle.js",
     "schema:build": "babel-node scripts/print_schema.js",
-    "schema:watch": "onchange schema/schema.js -- babel-node scripts/print_schema.js"
+    "schema:watch": "onchange schema/schema.js -- babel-node scripts/print_schema.js",
+    "db:init": "sqlite3 db/todo.sqlite3 < db/init.sql"
   }
 }
